@@ -1,0 +1,54 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "OpenBadgeCredential"
+  ],
+  "id": "https://www.credential.net/473ba507-51fe-4bd9-8fa7-3f16379c8735",
+  "name": "Academy Accreditation - Platform Administrator",
+  "description": "Earners of the Databricks Platform Administrator accreditation have demonstrated an ability to describe how to manage and administer the Databricks Lakehouse Platform.\n\nShare your accomplishment on LinkedIn and tag us #DatabricksLearning. We'll be selecting random winners who tag us for Databricks swag. \n\nEARNING CRITERIA\nSuccessful completion of Platform Administrator accreditation exam.",
+  "image": {
+    "id": "https://pdf.ms.credential.net/badge/image?env=production&credential=635mujkj",
+    "type": "Image"
+  },
+  "issuer": {
+    "type": "Profile",
+    "id": "did:web:api.accredible.com:v1:verifiable_credential:organizations:45847",
+    "name": "Databricks Academy",
+    "url": "https://www.databricks.com/learn/training/login"
+  },
+  "validFrom": "2026-08-10T00:00:00Z",
+  "credentialSubject": {
+    "type": "AchievementSubject",
+    "identifier": [
+      {
+        "type": "IdentityObject",
+        "hashed": true,
+        "identityHash": "sha256$0cd457e5f55c4d9456589717aac43df36b937a785ed1d1d28b35916db0303914",
+        "identityType": "emailAddress",
+        "salt": "0d1c5c31171a89c24661514463e0935b"
+      }
+    ],
+    "achievement": {
+      "id": "https://www.credential.net/group/405160",
+      "type": "Achievement",
+      "achievementType": "Achievement",
+      "name": "Academy Accreditation - Platform Administrator",
+      "description": "Earners of the Databricks Platform Administrator accreditation have demonstrated an ability to describe how to manage and administer the Databricks Lakehouse Platform.\n\nShare your accomplishment on LinkedIn and tag us #DatabricksLearning. We'll be selecting random winners who tag us for Databricks swag. \n\nEARNING CRITERIA\nSuccessful completion of Platform Administrator accreditation exam.",
+      "criteria": {
+        "narrative": "https://www.databricks.com/learn/certification"
+      }
+    }
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-rdfc-2022",
+    "created": "2026-08-16T01:27:30Z",
+    "verificationMethod": "did:web:api.accredible.com:v1:verifiable_credential:organizations:45847#62ae4c8c-dc10-11f0-9914-af0fa82e7cf8",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z4FQCdZ9CFTdfvoorhTgqriKMR5m96c1oYYW9UAMaeFaa4siNcNDcwPjnLfvzaqTxpYo9H2ZPrVwc7UNDvM8KAXsT"
+  }
+}

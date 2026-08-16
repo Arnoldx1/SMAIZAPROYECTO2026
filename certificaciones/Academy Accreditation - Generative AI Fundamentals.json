@@ -1,0 +1,54 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "OpenBadgeCredential"
+  ],
+  "id": "https://www.credential.net/e3096970-bd55-4ed9-90a9-3525b373d64e",
+  "name": "Academy Accreditation - Generative AI Fundamentals",
+  "description": "Earners of the badge passed the Fundamentals of the Databricks Generative AI accreditation with a score of 70% or higher.\n\nEARNING CRITERIA:\nSuccessful completion of Generative AI Fundamentals",
+  "image": {
+    "id": "https://pdf.ms.credential.net/v2/certificate/image?env=production&credential=5kgqaytp&variant=medium",
+    "type": "Image"
+  },
+  "issuer": {
+    "type": "Profile",
+    "id": "did:web:api.accredible.com:v1:verifiable_credential:organizations:45847",
+    "name": "Databricks Academy",
+    "url": "https://www.databricks.com/learn/training/login"
+  },
+  "validFrom": "2026-08-10T00:00:00Z",
+  "credentialSubject": {
+    "type": "AchievementSubject",
+    "identifier": [
+      {
+        "type": "IdentityObject",
+        "hashed": true,
+        "identityHash": "sha256$3ee80c33e5099db77f55a7e16fe460f9dac886de1bee657a5519e8eee36e13ae",
+        "identityType": "emailAddress",
+        "salt": "6f86b9bea3fde1773869eb6e6968961b"
+      }
+    ],
+    "achievement": {
+      "id": "https://www.credential.net/group/473432",
+      "type": "Achievement",
+      "achievementType": "Achievement",
+      "name": "Academy Accreditation - Generative AI Fundamentals",
+      "description": "Earners of the badge passed the Fundamentals of the Databricks Generative AI accreditation with a score of 70% or higher.\n\nEARNING CRITERIA:\nSuccessful completion of Generative AI Fundamentals",
+      "criteria": {
+        "narrative": "https://www.databricks.com/resources/learn/training/generative-ai-fundamentals"
+      }
+    }
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-rdfc-2022",
+    "created": "2026-08-16T01:29:02Z",
+    "verificationMethod": "did:web:api.accredible.com:v1:verifiable_credential:organizations:45847#62ae4c8c-dc10-11f0-9914-af0fa82e7cf8",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z2gyPZAqoRQwbZPXUDA7Z5m6zJr4m5QHe7nvucLav126e1uvStj8ELZCcER1QHiKQeGgH1M9TrkBsAVKtcV2juxZd"
+  }
+}

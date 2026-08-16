@@ -1,0 +1,492 @@
+[
+  {
+    "country": "United States",
+    "books_read_annually": 17.0,
+    "hours_reading_per_year": 357
+  },
+  {
+    "country": "India",
+    "books_read_annually": 16.0,
+    "hours_reading_per_year": 352
+  },
+  {
+    "country": "United Kingdom",
+    "books_read_annually": 15.0,
+    "hours_reading_per_year": 343
+  },
+  {
+    "country": "France",
+    "books_read_annually": 14.0,
+    "hours_reading_per_year": 305
+  },
+  {
+    "country": "Italy",
+    "books_read_annually": 13.0,
+    "hours_reading_per_year": 278
+  },
+  {
+    "country": "Russia",
+    "books_read_annually": 11.0,
+    "hours_reading_per_year": 223
+  },
+  {
+    "country": "Australia",
+    "books_read_annually": 10.0,
+    "hours_reading_per_year": 217
+  },
+  {
+    "country": "Spain",
+    "books_read_annually": 9.0,
+    "hours_reading_per_year": 187
+  },
+  {
+    "country": "Netherlands",
+    "books_read_annually": 8.0,
+    "hours_reading_per_year": 187
+  },
+  {
+    "country": "Switzerland",
+    "books_read_annually": 6.9,
+    "hours_reading_per_year": 157
+  },
+  {
+    "country": "Taiwan",
+    "books_read_annually": 6.83,
+    "hours_reading_per_year": 157
+  },
+  {
+    "country": "Belgium",
+    "books_read_annually": 6.76,
+    "hours_reading_per_year": 155
+  },
+  {
+    "country": "Singapore",
+    "books_read_annually": 6.72,
+    "hours_reading_per_year": 155
+  },
+  {
+    "country": "Hong Kong",
+    "books_read_annually": 6.66,
+    "hours_reading_per_year": 155
+  },
+  {
+    "country": "South Africa",
+    "books_read_annually": 6.62,
+    "hours_reading_per_year": 154
+  },
+  {
+    "country": "China",
+    "books_read_annually": 6.61,
+    "hours_reading_per_year": 154
+  },
+  {
+    "country": "Norway",
+    "books_read_annually": 6.48,
+    "hours_reading_per_year": 153
+  },
+  {
+    "country": "Israel",
+    "books_read_annually": 6.42,
+    "hours_reading_per_year": 149
+  },
+  {
+    "country": "Austria",
+    "books_read_annually": 6.42,
+    "hours_reading_per_year": 153
+  },
+  {
+    "country": "Thailand",
+    "books_read_annually": 6.37,
+    "hours_reading_per_year": 149
+  },
+  {
+    "country": "Iran",
+    "books_read_annually": 6.36,
+    "hours_reading_per_year": 149
+  },
+  {
+    "country": "Colombia",
+    "books_read_annually": 6.32,
+    "hours_reading_per_year": 147
+  },
+  {
+    "country": "Chile",
+    "books_read_annually": 6.28,
+    "hours_reading_per_year": 144
+  },
+  {
+    "country": "Romania",
+    "books_read_annually": 6.28,
+    "hours_reading_per_year": 147
+  },
+  {
+    "country": "Germany",
+    "books_read_annually": 6.25,
+    "hours_reading_per_year": 141
+  },
+  {
+    "country": "Japan",
+    "books_read_annually": 6.2,
+    "hours_reading_per_year": 135
+  },
+  {
+    "country": "Czechia",
+    "books_read_annually": 6.07,
+    "hours_reading_per_year": 133
+  },
+  {
+    "country": "Finland",
+    "books_read_annually": 6.06,
+    "hours_reading_per_year": 131
+  },
+  {
+    "country": "Turkey",
+    "books_read_annually": 6.05,
+    "hours_reading_per_year": 130
+  },
+  {
+    "country": "Indonesia",
+    "books_read_annually": 5.91,
+    "hours_reading_per_year": 129
+  },
+  {
+    "country": "Mexico",
+    "books_read_annually": 5.83,
+    "hours_reading_per_year": 127
+  },
+  {
+    "country": "South Korea",
+    "books_read_annually": 5.69,
+    "hours_reading_per_year": 125
+  },
+  {
+    "country": "Brazil",
+    "books_read_annually": 5.61,
+    "hours_reading_per_year": 125
+  },
+  {
+    "country": "Philippines",
+    "books_read_annually": 5.59,
+    "hours_reading_per_year": 123
+  },
+  {
+    "country": "Vietnam",
+    "books_read_annually": 5.54,
+    "hours_reading_per_year": 123
+  },
+  {
+    "country": "Malaysia",
+    "books_read_annually": 5.49,
+    "hours_reading_per_year": 122
+  },
+  {
+    "country": "Denmark",
+    "books_read_annually": 5.48,
+    "hours_reading_per_year": 121
+  },
+  {
+    "country": "Egypt",
+    "books_read_annually": 5.41,
+    "hours_reading_per_year": 121
+  },
+  {
+    "country": "Peru",
+    "books_read_annually": 5.35,
+    "hours_reading_per_year": 120
+  },
+  {
+    "country": "Portugal",
+    "books_read_annually": 5.35,
+    "hours_reading_per_year": 120
+  },
+  {
+    "country": "New Zealand",
+    "books_read_annually": 5.32,
+    "hours_reading_per_year": 119
+  },
+  {
+    "country": "Greece",
+    "books_read_annually": 5.31,
+    "hours_reading_per_year": 117
+  },
+  {
+    "country": "Ukraine",
+    "books_read_annually": 5.29,
+    "hours_reading_per_year": 117
+  },
+  {
+    "country": "Hungary",
+    "books_read_annually": 5.29,
+    "hours_reading_per_year": 117
+  },
+  {
+    "country": "Slovakia",
+    "books_read_annually": 5.26,
+    "hours_reading_per_year": 116
+  },
+  {
+    "country": "Cuba",
+    "books_read_annually": 5.18,
+    "hours_reading_per_year": 115
+  },
+  {
+    "country": "Dominican Republic",
+    "books_read_annually": 5.13,
+    "hours_reading_per_year": 115
+  },
+  {
+    "country": "Ecuador",
+    "books_read_annually": 5.11,
+    "hours_reading_per_year": 113
+  },
+  {
+    "country": "Puerto Rico",
+    "books_read_annually": 5.1,
+    "hours_reading_per_year": 113
+  },
+  {
+    "country": "Kenya",
+    "books_read_annually": 4.97,
+    "hours_reading_per_year": 108
+  },
+  {
+    "country": "Bulgaria",
+    "books_read_annually": 4.96,
+    "hours_reading_per_year": 106
+  },
+  {
+    "country": "Luxembourg",
+    "books_read_annually": 4.94,
+    "hours_reading_per_year": 106
+  },
+  {
+    "country": "Venezuela",
+    "books_read_annually": 4.91,
+    "hours_reading_per_year": 104
+  },
+  {
+    "country": "Argentina",
+    "books_read_annually": 4.88,
+    "hours_reading_per_year": 103
+  },
+  {
+    "country": "Costa Rica",
+    "books_read_annually": 4.83,
+    "hours_reading_per_year": 102
+  },
+  {
+    "country": "Panama",
+    "books_read_annually": 4.8,
+    "hours_reading_per_year": 101
+  },
+  {
+    "country": "Lithuania",
+    "books_read_annually": 4.76,
+    "hours_reading_per_year": 101
+  },
+  {
+    "country": "Slovenia",
+    "books_read_annually": 4.72,
+    "hours_reading_per_year": 100
+  },
+  {
+    "country": "Estonia",
+    "books_read_annually": 4.66,
+    "hours_reading_per_year": 98
+  },
+  {
+    "country": "Macau",
+    "books_read_annually": 4.66,
+    "hours_reading_per_year": 98
+  },
+  {
+    "country": "Iceland",
+    "books_read_annually": 4.51,
+    "hours_reading_per_year": 97
+  },
+  {
+    "country": "Georgia",
+    "books_read_annually": 4.3,
+    "hours_reading_per_year": 96
+  },
+  {
+    "country": "Armenia",
+    "books_read_annually": 4.29,
+    "hours_reading_per_year": 94
+  },
+  {
+    "country": "Malta",
+    "books_read_annually": 4.17,
+    "hours_reading_per_year": 94
+  },
+  {
+    "country": "North Macedonia",
+    "books_read_annually": 4.11,
+    "hours_reading_per_year": 94
+  },
+  {
+    "country": "Mauritius",
+    "books_read_annually": 4.02,
+    "hours_reading_per_year": 89
+  },
+  {
+    "country": "Tajikistan",
+    "books_read_annually": 4.01,
+    "hours_reading_per_year": 89
+  },
+  {
+    "country": "Namibia",
+    "books_read_annually": 4.0,
+    "hours_reading_per_year": 88
+  },
+  {
+    "country": "Kyrgyzstan",
+    "books_read_annually": 3.96,
+    "hours_reading_per_year": 87
+  },
+  {
+    "country": "Nicaragua",
+    "books_read_annually": 3.93,
+    "hours_reading_per_year": 86
+  },
+  {
+    "country": "Niger",
+    "books_read_annually": 3.77,
+    "hours_reading_per_year": 86
+  },
+  {
+    "country": "Moldova",
+    "books_read_annually": 3.62,
+    "hours_reading_per_year": 85
+  },
+  {
+    "country": "Jamaica",
+    "books_read_annually": 3.58,
+    "hours_reading_per_year": 80
+  },
+  {
+    "country": "Syria",
+    "books_read_annually": 3.57,
+    "hours_reading_per_year": 80
+  },
+  {
+    "country": "Cambodia",
+    "books_read_annually": 3.52,
+    "hours_reading_per_year": 78
+  },
+  {
+    "country": "Zimbabwe",
+    "books_read_annually": 3.49,
+    "hours_reading_per_year": 78
+  },
+  {
+    "country": "Lebanon",
+    "books_read_annually": 3.46,
+    "hours_reading_per_year": 77
+  },
+  {
+    "country": "Bahrain",
+    "books_read_annually": 3.44,
+    "hours_reading_per_year": 77
+  },
+  {
+    "country": "Jordan",
+    "books_read_annually": 3.43,
+    "hours_reading_per_year": 76
+  },
+  {
+    "country": "Sri Lanka",
+    "books_read_annually": 3.29,
+    "hours_reading_per_year": 76
+  },
+  {
+    "country": "Myanmar",
+    "books_read_annually": 3.28,
+    "hours_reading_per_year": 74
+  },
+  {
+    "country": "Azerbaijan",
+    "books_read_annually": 3.25,
+    "hours_reading_per_year": 74
+  },
+  {
+    "country": "Angola",
+    "books_read_annually": 3.18,
+    "hours_reading_per_year": 69
+  },
+  {
+    "country": "Turkmenistan",
+    "books_read_annually": 3.18,
+    "hours_reading_per_year": 74
+  },
+  {
+    "country": "Oman",
+    "books_read_annually": 3.13,
+    "hours_reading_per_year": 69
+  },
+  {
+    "country": "Kuwait",
+    "books_read_annually": 3.08,
+    "hours_reading_per_year": 69
+  },
+  {
+    "country": "Ethiopia",
+    "books_read_annually": 3.06,
+    "hours_reading_per_year": 69
+  },
+  {
+    "country": "Morocco",
+    "books_read_annually": 2.97,
+    "hours_reading_per_year": 67
+  },
+  {
+    "country": "Qatar",
+    "books_read_annually": 2.93,
+    "hours_reading_per_year": 67
+  },
+  {
+    "country": "Algeria",
+    "books_read_annually": 2.83,
+    "hours_reading_per_year": 65
+  },
+  {
+    "country": "Iraq",
+    "books_read_annually": 2.77,
+    "hours_reading_per_year": 64
+  },
+  {
+    "country": "Kazakhstan",
+    "books_read_annually": 2.77,
+    "hours_reading_per_year": 65
+  },
+  {
+    "country": "Bangladesh",
+    "books_read_annually": 2.75,
+    "hours_reading_per_year": 62
+  },
+  {
+    "country": "United Arab Emirates",
+    "books_read_annually": 2.71,
+    "hours_reading_per_year": 60
+  },
+  {
+    "country": "Saudi Arabia",
+    "books_read_annually": 2.69,
+    "hours_reading_per_year": 60
+  },
+  {
+    "country": "Pakistan",
+    "books_read_annually": 2.6,
+    "hours_reading_per_year": 60
+  },
+  {
+    "country": "Brunei",
+    "books_read_annually": 2.59,
+    "hours_reading_per_year": 60
+  },
+  {
+    "country": "Afghanistan",
+    "books_read_annually": 2.56,
+    "hours_reading_per_year": 58
+  }
+]

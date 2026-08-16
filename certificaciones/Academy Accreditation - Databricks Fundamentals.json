@@ -1,0 +1,54 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "OpenBadgeCredential"
+  ],
+  "id": "https://www.credential.net/29a25409-2c78-48dc-be07-ea5ea67c90c3",
+  "name": "Academy Accreditation - Databricks Fundamentals",
+  "description": "Earners of the Databricks Fundamentals accreditation have demonstrated the understanding of fundamental concepts related to Databricks Data Intelligence Platform.\n\nShare your accomplishment on LinkedIn and tag us #DatabricksLearning. We'll be selecting random winners who tag us for Databricks swag. \n\nEARNING CRITERIA\nCompletion of a short assessment on fundamental concepts related to the Databricks Lakehouse Platform.",
+  "image": {
+    "id": "https://pdf.ms.credential.net/v2/certificate/image?env=production&credential=khifulge&variant=medium",
+    "type": "Image"
+  },
+  "issuer": {
+    "type": "Profile",
+    "id": "did:web:api.accredible.com:v1:verifiable_credential:organizations:45847",
+    "name": "Databricks Academy",
+    "url": "https://www.databricks.com/learn/training/login"
+  },
+  "validFrom": "2026-08-10T00:00:00Z",
+  "credentialSubject": {
+    "type": "AchievementSubject",
+    "identifier": [
+      {
+        "type": "IdentityObject",
+        "hashed": true,
+        "identityHash": "sha256$92303b547841071a7929147db7d2e0bb909449a92677434f7d50fda619135956",
+        "identityType": "emailAddress",
+        "salt": "17f0188c53569d84021b4e10abbe8765"
+      }
+    ],
+    "achievement": {
+      "id": "https://www.credential.net/group/547441",
+      "type": "Achievement",
+      "achievementType": "Achievement",
+      "name": "Academy Accreditation - Databricks Fundamentals",
+      "description": "Earners of the Databricks Fundamentals accreditation have demonstrated the understanding of fundamental concepts related to Databricks Data Intelligence Platform.\n\nShare your accomplishment on LinkedIn and tag us #DatabricksLearning. We'll be selecting random winners who tag us for Databricks swag. \n\nEARNING CRITERIA\nCompletion of a short assessment on fundamental concepts related to the Databricks Lakehouse Platform.",
+      "criteria": {
+        "narrative": "https://www.databricks.com/learn/training/home"
+      }
+    }
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-rdfc-2022",
+    "created": "2026-08-16T01:39:26Z",
+    "verificationMethod": "did:web:api.accredible.com:v1:verifiable_credential:organizations:45847#62ae4c8c-dc10-11f0-9914-af0fa82e7cf8",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z2svYaCyG2RsQ7yi8DkD2Uq6BHe1yPxXtVpZBkV55MTEnBdAqg3Mx8A76MJRHYKMPazz2KwTnY9tGM8VN624hCpaW"
+  }
+}
