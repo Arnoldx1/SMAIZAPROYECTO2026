@@ -12,31 +12,7 @@ Para responderla, se cruza el **catálogo propio** de la librería (basado en el
 
 ## 🏗️ Arquitectura
 
-```
-                    ┌─→ Goodreads Best Books Ever (CSV, Data Lake)
-                    │
-FUENTES ────────────┼─→ Amazon Bestsellers 2009-2019 (CSV, Data Lake)
-                    │
-                    └─→ País-Lectura (Azure SQL Database, vía Managed Identity)
-                    ↓
-              ┌──────────────┐
-              │    BRONZE    │  Datos crudos, sin transformar
-              └──────┬───────┘
-                     ↓
-              ┌──────────────┐
-              │    SILVER    │  Limpieza, normalización, JOIN catálogo↔bestsellers
-              └──────┬───────┘
-                     ↓
-              ┌──────────────┐
-              │    GOLDEN    │  Tablas agregadas listas para dashboard
-              └──────┬───────┘
-                     ↓
-        ┌────────────┴────────────┐
-        ↓                         ↓
-  Delta Sharing              Lakebase (Synced Tables)
-        ↓                         ↓
-   Power BI                Databricks Lakeview (via Genie)
-```
+![Arquitectura del proyecto](evidencias/arquitectura.png)
 
 Toda la infraestructura vive en **Azure Databricks con Unity Catalog** (`catalog_au`), usando **Managed Identity** (Access Connector) para todas las conexiones a Azure Data Lake Storage Gen2, y **Azure SQL Database** como tercera fuente para demostrar variedad de orígenes de datos.
 
@@ -133,6 +109,14 @@ Las 5 tablas Golden se comparten desde Unity Catalog mediante un **Delta Share**
 ### 2. Databricks Lakeview (vía Lakebase)
 Las mismas 5 tablas Golden se sincronizan a **Lakebase** (Postgres serverless nativo de Databricks) mediante *Synced Tables*, y desde ahí se construyó el dashboard **"Biblioteca Analytics"** usando **Genie Code** (autoría asistida por IA en lenguaje natural).
 
+### Capturas
+
+**Power BI:**
+![Dashboard Power BI](dashboard/dashboard_powebi.png)
+
+**Databricks Lakeview:**
+![Dashboard Databricks Lakeview](dashboard/dashboard_databricks.png)
+
 ---
 
 ## ⚙️ CI/CD
@@ -150,11 +134,7 @@ El pipeline (`\.github/workflows/deploy.yml`) automatiza el paso de **dev → pr
 
 ### Diagrama de dependencias del Job
 
-```
-                    ┌─→ ingest_goodreads ─┐
-prep_ambiente ──────┼─→ ingest_amazon ────┼──→ transform ──→ load
-                    └─→ ingest_country ───┘
-```
+![Ejecución correcta del Job](evidencias/job_correcto.png)
 
 ---
 
