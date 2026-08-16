@@ -15,35 +15,21 @@ jobs:
     - name: Install jq & curl
       run: sudo apt-get update && sudo apt-get install -y jq curl
 
-    - name: Export multiple notebooks (raw)
+    - name: Export and Deploy notebooks (respecting each notebook's language)
       run: |
         ORIGIN_HOST=${{ secrets.DATABRICKS_ORIGIN_HOST }}
         ORIGIN_TOKEN=${{ secrets.DATABRICKS_ORIGIN_TOKEN }}
-        NOTEBOOK_BASE="/Workspace/Users/aizasd1999@outlook.com/SMAIZAPROYECTO2026/proceso"
-
-        # Nombres seguros (sin espacios/puntos) -> nombre real del notebook en Databricks
-        SAFE_NAMES=("prep_ambiente" "ingest_goodreads" "ingest_amazon" "ingest_country" "transform" "load")
-        REAL_NAMES=("1.- Preparacion_Ambiente" "2.1.- Ingest Goodreads Books" "2.2.- Ingest Amazon Bestsellers" "2.3.- Ingest Country Reading" "3.- Transform" "4.- Load")
-
-        mkdir -p notebooks_to_deploy
-        for i in "${!SAFE_NAMES[@]}"; do
-          safe="${SAFE_NAMES[$i]}"
-          real="${REAL_NAMES[$i]}"
-          echo "Exportando '$real' -> $safe.py ..."
-          curl -s -G \
-            -H "Authorization: Bearer $ORIGIN_TOKEN" \
-            --data-urlencode "path=$NOTEBOOK_BASE/$real" \
-            --data-urlencode "format=SOURCE" \
-            --data-urlencode "direct_download=true" \
-            "$ORIGIN_HOST/api/2.0/workspace/export" \
-            --output "notebooks_to_deploy/$safe.py"
-        done
-
-    - name: Deploy notebooks to Destination Workspace
-      run: |
         DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
         DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
+        NOTEBOOK_BASE="/Workspace/Users/aizasd1999@outlook.com/SMAIZAPROYECTO2026/proceso"
         DEST_BASE="/Workspace/Shared/libreria_proceso"
+
+        # Nombres seguros (sin espacios/puntos) -> nombre real -> lenguaje real del notebook
+        SAFE_NAMES=("prep_ambiente" "ingest_goodreads" "ingest_amazon" "ingest_country" "transform" "load")
+        REAL_NAMES=("1.- Preparacion_Ambiente" "2.1.- Ingest Goodreads Books" "2.2.- Ingest Amazon Bestsellers" "2.3.- Ingest Country Reading" "3.- Transform" "4.- Load")
+        LANGUAGES=("SQL" "PYTHON" "PYTHON" "PYTHON" "PYTHON" "PYTHON")
+
+        mkdir -p notebooks_to_deploy
 
         curl -s -X POST \
           -H "Authorization: Bearer $DEST_TOKEN" \
@@ -51,16 +37,29 @@ jobs:
           -d "{\"path\":\"$DEST_BASE\"}" \
           "$DEST_HOST/api/2.0/workspace/mkdirs"
 
-        for file in notebooks_to_deploy/*.py; do
-          name=$(basename "$file" .py)
-          dest_path="$DEST_BASE/$name"
-          echo "Importando $file -> $dest_path"
+        for i in "${!SAFE_NAMES[@]}"; do
+          safe="${SAFE_NAMES[$i]}"
+          real="${REAL_NAMES[$i]}"
+          lang="${LANGUAGES[$i]}"
+          file="notebooks_to_deploy/$safe.py"
+
+          echo "Exportando '$real' (lenguaje: $lang) -> $safe.py ..."
+          curl -s -G \
+            -H "Authorization: Bearer $ORIGIN_TOKEN" \
+            --data-urlencode "path=$NOTEBOOK_BASE/$real" \
+            --data-urlencode "format=SOURCE" \
+            --data-urlencode "direct_download=true" \
+            "$ORIGIN_HOST/api/2.0/workspace/export" \
+            --output "$file"
+
+          dest_path="$DEST_BASE/$safe"
+          echo "Importando $file -> $dest_path (lenguaje: $lang)"
           response=$(curl -s -X POST \
             -H "Authorization: Bearer $DEST_TOKEN" \
             -H "Content-Type: multipart/form-data" \
             -F "path=$dest_path" \
             -F "format=SOURCE" \
-            -F "language=PYTHON" \
+            -F "language=$lang" \
             -F "overwrite=true" \
             -F "content=@$file" \
             "$DEST_HOST/api/2.0/workspace/import")
