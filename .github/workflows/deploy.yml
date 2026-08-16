@@ -1,0 +1,294 @@
+name: Dynamic Databricks Notebook Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install jq & curl
+      run: sudo apt-get update && sudo apt-get install -y jq curl
+
+    - name: Export multiple notebooks (raw)
+      run: |
+        ORIGIN_HOST=${{ secrets.DATABRICKS_ORIGIN_HOST }}
+        ORIGIN_TOKEN=${{ secrets.DATABRICKS_ORIGIN_TOKEN }}
+        NOTEBOOK_BASE="/Workspace/Users/aizasd1999@outlook.com/SMAIZAPROYECTO2026/proceso"
+
+        # Nombres seguros (sin espacios/puntos) -> nombre real del notebook en Databricks
+        SAFE_NAMES=("prep_ambiente" "ingest_goodreads" "ingest_amazon" "ingest_country" "transform" "load")
+        REAL_NAMES=("1.- Preparacion_Ambiente" "2.1.- Ingest Goodreads Books" "2.2.- Ingest Amazon Bestsellers" "2.3.- Ingest Country Reading" "3.- Transform" "4.- Load")
+
+        mkdir -p notebooks_to_deploy
+        for i in "${!SAFE_NAMES[@]}"; do
+          safe="${SAFE_NAMES[$i]}"
+          real="${REAL_NAMES[$i]}"
+          echo "Exportando '$real' -> $safe.py ..."
+          curl -s -G \
+            -H "Authorization: Bearer $ORIGIN_TOKEN" \
+            --data-urlencode "path=$NOTEBOOK_BASE/$real" \
+            --data-urlencode "format=SOURCE" \
+            --data-urlencode "direct_download=true" \
+            "$ORIGIN_HOST/api/2.0/workspace/export" \
+            --output "notebooks_to_deploy/$safe.py"
+        done
+
+    - name: Deploy notebooks to Destination Workspace
+      run: |
+        DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
+        DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
+        DEST_BASE="/Workspace/Shared/libreria_proceso"
+
+        curl -s -X POST \
+          -H "Authorization: Bearer $DEST_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d "{\"path\":\"$DEST_BASE\"}" \
+          "$DEST_HOST/api/2.0/workspace/mkdirs"
+
+        for file in notebooks_to_deploy/*.py; do
+          name=$(basename "$file" .py)
+          dest_path="$DEST_BASE/$name"
+          echo "Importando $file -> $dest_path"
+          response=$(curl -s -X POST \
+            -H "Authorization: Bearer $DEST_TOKEN" \
+            -H "Content-Type: multipart/form-data" \
+            -F "path=$dest_path" \
+            -F "format=SOURCE" \
+            -F "language=PYTHON" \
+            -F "overwrite=true" \
+            -F "content=@$file" \
+            "$DEST_HOST/api/2.0/workspace/import")
+          echo "Response: $response"
+        done
+
+    - name: Check if workflow exists and delete if necessary
+      run: |
+        DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
+        DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
+        WORKFLOW_NAME="WF_Libreria_ETL"
+
+        workflows_response=$(curl -s -X GET \
+          -H "Authorization: Bearer $DEST_TOKEN" \
+          "$DEST_HOST/api/2.1/jobs/list")
+
+        existing_job_id=$(echo "$workflows_response" | jq -r --arg name "$WORKFLOW_NAME" '.jobs[]? | select(.settings.name == $name) | .job_id')
+
+        if [ "$existing_job_id" != "" ] && [ "$existing_job_id" != "null" ]; then
+          echo "Workflow encontrado con ID: $existing_job_id. Eliminando..."
+          curl -s -X POST \
+            -H "Authorization: Bearer $DEST_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"job_id\": $existing_job_id}" \
+            "$DEST_HOST/api/2.1/jobs/delete"
+        else
+          echo "No se encontro workflow existente."
+        fi
+
+    - name: Get existing cluster ID
+      run: |
+        DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
+        DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
+        CLUSTER_NAME="cluster_prod_libreria"
+
+        clusters_response=$(curl -s -X GET \
+          -H "Authorization: Bearer $DEST_TOKEN" \
+          "$DEST_HOST/api/2.0/clusters/list")
+
+        cluster_id=$(echo "$clusters_response" | jq -r --arg name "$CLUSTER_NAME" '.clusters[]? | select(.cluster_name == $name) | .cluster_id')
+
+        if [ "$cluster_id" != "" ] && [ "$cluster_id" != "null" ]; then
+          echo "Cluster encontrado: $CLUSTER_NAME con ID: $cluster_id"
+          echo "CLUSTER_ID=$cluster_id" >> $GITHUB_ENV
+        else
+          echo "No se encontro el cluster: $CLUSTER_NAME"
+          echo "$clusters_response" | jq -r '.clusters[]? | .cluster_name'
+          exit 1
+        fi
+
+    - name: Create Databricks Workflow WF_Libreria_ETL
+      run: |
+        DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
+        DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
+        DEST_BASE="/Workspace/Shared/libreria_proceso"
+        CLUSTER_ID="${{ env.CLUSTER_ID }}"
+
+        cat > workflow_config.json << EOF
+        {
+          "name": "WF_Libreria_ETL",
+          "format": "MULTI_TASK",
+          "tasks": [
+            {
+              "task_key": "prep_ambiente",
+              "notebook_task": {
+                "notebook_path": "$DEST_BASE/prep_ambiente",
+                "source": "WORKSPACE"
+              },
+              "existing_cluster_id": "$CLUSTER_ID",
+              "timeout_seconds": 3600,
+              "max_retries": 1
+            },
+            {
+              "task_key": "ingest_goodreads",
+              "notebook_task": {
+                "notebook_path": "$DEST_BASE/ingest_goodreads",
+                "source": "WORKSPACE"
+              },
+              "existing_cluster_id": "$CLUSTER_ID",
+              "timeout_seconds": 3600,
+              "max_retries": 1,
+              "depends_on": [{ "task_key": "prep_ambiente" }]
+            },
+            {
+              "task_key": "ingest_amazon",
+              "notebook_task": {
+                "notebook_path": "$DEST_BASE/ingest_amazon",
+                "source": "WORKSPACE"
+              },
+              "existing_cluster_id": "$CLUSTER_ID",
+              "timeout_seconds": 3600,
+              "max_retries": 1,
+              "depends_on": [{ "task_key": "prep_ambiente" }]
+            },
+            {
+              "task_key": "ingest_country",
+              "notebook_task": {
+                "notebook_path": "$DEST_BASE/ingest_country",
+                "source": "WORKSPACE"
+              },
+              "existing_cluster_id": "$CLUSTER_ID",
+              "timeout_seconds": 3600,
+              "max_retries": 1,
+              "depends_on": [{ "task_key": "prep_ambiente" }]
+            },
+            {
+              "task_key": "transform",
+              "notebook_task": {
+                "notebook_path": "$DEST_BASE/transform",
+                "source": "WORKSPACE"
+              },
+              "existing_cluster_id": "$CLUSTER_ID",
+              "timeout_seconds": 3600,
+              "max_retries": 1,
+              "depends_on": [
+                { "task_key": "ingest_goodreads" },
+                { "task_key": "ingest_amazon" },
+                { "task_key": "ingest_country" }
+              ]
+            },
+            {
+              "task_key": "load",
+              "notebook_task": {
+                "notebook_path": "$DEST_BASE/load",
+                "source": "WORKSPACE"
+              },
+              "existing_cluster_id": "$CLUSTER_ID",
+              "timeout_seconds": 3600,
+              "max_retries": 1,
+              "depends_on": [{ "task_key": "transform" }]
+            }
+          ],
+          "schedule": {
+            "quartz_cron_expression": "0 0 8 * * ?",
+            "timezone_id": "America/Guayaquil",
+            "pause_status": "PAUSED"
+          },
+          "max_concurrent_runs": 1,
+          "tags": {
+            "environment": "production",
+            "created_by": "github_actions",
+            "project": "libreria_bestsellers"
+          }
+        }
+        EOF
+
+        create_response=$(curl -s -X POST \
+          -H "Authorization: Bearer $DEST_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d @workflow_config.json \
+          "$DEST_HOST/api/2.1/jobs/create")
+
+        echo "Workflow creation response: $create_response"
+        job_id=$(echo "$create_response" | jq -r '.job_id')
+
+        if [ "$job_id" != "" ] && [ "$job_id" != "null" ]; then
+          echo "Workflow creado con ID: $job_id"
+          echo "JOB_ID=$job_id" >> $GITHUB_ENV
+        else
+          echo "Error al crear el workflow"
+          exit 1
+        fi
+
+    - name: Execute Workflow
+      run: |
+        DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
+        DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
+        JOB_ID="${{ env.JOB_ID }}"
+
+        run_response=$(curl -s -X POST \
+          -H "Authorization: Bearer $DEST_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d "{\"job_id\": $JOB_ID}" \
+          "$DEST_HOST/api/2.1/jobs/run-now")
+
+        run_id=$(echo "$run_response" | jq -r '.run_id')
+
+        if [ "$run_id" != "" ] && [ "$run_id" != "null" ]; then
+          echo "Workflow ejecutado. Run ID: $run_id"
+          echo "RUN_ID=$run_id" >> $GITHUB_ENV
+          echo "URL: $DEST_HOST/jobs/$JOB_ID/runs/$run_id"
+        else
+          echo "Error al ejecutar"
+          exit 1
+        fi
+
+    - name: Monitor Workflow Execution
+      run: |
+        DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
+        DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
+        RUN_ID="${{ env.RUN_ID }}"
+
+        max_wait_time=600
+        wait_time=0
+        check_interval=30
+
+        while [ $wait_time -lt $max_wait_time ]; do
+          run_status=$(curl -s -X GET \
+            -H "Authorization: Bearer $DEST_TOKEN" \
+            "$DEST_HOST/api/2.1/jobs/runs/get?run_id=$RUN_ID")
+
+          state=$(echo "$run_status" | jq -r '.state.life_cycle_state')
+          result_state=$(echo "$run_status" | jq -r '.state.result_state // "RUNNING"')
+
+          echo "Estado: $state ($result_state) - ${wait_time}s"
+          echo "$run_status" | jq -r '.tasks[]? | "  " + .task_key + ": " + .state.life_cycle_state + " (" + (.state.result_state // "RUNNING") + ")"'
+
+          if [ "$state" = "TERMINATED" ]; then
+            if [ "$result_state" = "SUCCESS" ]; then
+              echo "Workflow completado exitosamente!"
+              exit 0
+            else
+              echo "Workflow termino con errores: $result_state"
+              exit 1
+            fi
+          elif [ "$state" = "INTERNAL_ERROR" ] || [ "$state" = "SKIPPED" ]; then
+            echo "Workflow fallo: $state"
+            exit 1
+          fi
+
+          sleep $check_interval
+          wait_time=$((wait_time + check_interval))
+        done
+
+        echo "Timeout: sigue corriendo, revisa en Databricks."
+        exit 0
+
+    - name: Clean up
+      run: |
+        rm -rf notebooks_to_deploy
+        rm -f workflow_config.json

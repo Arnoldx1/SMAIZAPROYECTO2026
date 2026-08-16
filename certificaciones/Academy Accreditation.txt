@@ -1,0 +1,5 @@
+Academy Accreditation - Platform Administrator: https://credentials.databricks.com/473ba507-51fe-4bd9-8fa7-3f16379c8735#acc.aT2LqGbD
+
+Academy Accreditation - Generative AI Fundamentals: https://credentials.databricks.com/e3096970-bd55-4ed9-90a9-3525b373d64e#acc.cagZJwu5
+
+Academy Accreditation - Databricks Fundamentals: https://credentials.databricks.com/29a25409-2c78-48dc-be07-ea5ea67c90c3#acc.01dE6fXc

@@ -1,0 +1,728 @@
+{
+  "datasets": [
+    {
+      "name": "ds_genre_dist",
+      "displayName": "Distribucion de Generos Top 10",
+      "queryLines": [
+        "SELECT\n",
+        "  genre,\n",
+        "  book_count\n",
+        "FROM\n",
+        "  catalog_au.golden.genre_distribution_synced\n",
+        "ORDER BY\n",
+        "  book_count DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "ds_top_genre",
+      "displayName": "KPI - Genero Popular",
+      "queryLines": [
+        "SELECT\n",
+        "  genre,\n",
+        "  book_count\n",
+        "FROM\n",
+        "  catalog_au.golden.genre_distribution_synced\n",
+        "ORDER BY\n",
+        "  book_count DESC\n",
+        "LIMIT 1"
+      ]
+    },
+    {
+      "name": "ds_top_authors",
+      "displayName": "Top 10 Autores por Bestsellers",
+      "queryLines": [
+        "SELECT\n",
+        "  author,\n",
+        "  total_bestseller_books\n",
+        "FROM\n",
+        "  catalog_au.golden.top_authors_synced\n",
+        "ORDER BY\n",
+        "  total_bestseller_books DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "ds_top_books",
+      "displayName": "Top 10 Libros por Anos Bestseller",
+      "queryLines": [
+        "SELECT\n",
+        "  name,\n",
+        "  years_as_bestseller\n",
+        "FROM\n",
+        "  catalog_au.golden.top_books_synced\n",
+        "ORDER BY\n",
+        "  years_as_bestseller DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "ds_kpi_authors",
+      "displayName": "KPI - Total Autores",
+      "queryLines": [
+        "SELECT\n",
+        "  COUNT(*) AS total_authors\n",
+        "FROM\n",
+        "  catalog_au.golden.top_authors_synced"
+      ]
+    },
+    {
+      "name": "ds_kpi_books",
+      "displayName": "KPI - Total Libros",
+      "queryLines": [
+        "SELECT\n",
+        "  COUNT(*) AS total_books\n",
+        "FROM\n",
+        "  catalog_au.golden.top_books_synced"
+      ]
+    },
+    {
+      "name": "ds_country_reading",
+      "displayName": "Indice de Lectura por Pais",
+      "queryLines": [
+        "SELECT\n",
+        "  country,\n",
+        "  reading_index\n",
+        "FROM\n",
+        "  catalog_au.golden.country_reading_synced\n",
+        "ORDER BY\n",
+        "  reading_index DESC"
+      ]
+    },
+    {
+      "name": "ds_books_by_genre",
+      "displayName": "Top 5 Libros por Genero",
+      "queryLines": [
+        "SELECT\n",
+        "  genre,\n",
+        "  rank,\n",
+        "  title,\n",
+        "  author,\n",
+        "  rating\n",
+        "FROM\n",
+        "  catalog_au.golden.top_books_by_genre_synced\n",
+        "WHERE\n",
+        "  rank <= 5\n",
+        "ORDER BY\n",
+        "  genre,\n",
+        "  rank"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "821d9da7",
+      "displayName": "AUTORES LIBROS PAISES",
+      "layout": [
+        {
+          "widget": {
+            "name": "bar_top_authors",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_top_authors",
+                  "fields": [
+                    {
+                      "name": "sum(total_bestseller_books)",
+                      "expression": "SUM(`total_bestseller_books`)"
+                    },
+                    {
+                      "name": "author",
+                      "expression": "`author`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Autores por Bestsellers",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(total_bestseller_books)",
+                  "axis": {
+                    "title": "Libros Bestseller"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "author",
+                  "axis": {
+                    "title": ""
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "bar_top_books",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_top_books",
+                  "fields": [
+                    {
+                      "name": "sum(years_as_bestseller)",
+                      "expression": "SUM(`years_as_bestseller`)"
+                    },
+                    {
+                      "name": "name",
+                      "expression": "`name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Libros por Años como Bestseller",
+                "showTitle": true
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(years_as_bestseller)",
+                  "axis": {
+                    "title": "Años como Bestseller"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "name",
+                  "axis": {
+                    "title": ""
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "header_text",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## 📚 Biblioteca Analytics\n",
+                "#### Análisis editorial · Bestsellers · Autores · Géneros · Lectura Global"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi_total_authors",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi_authors",
+                  "fields": [
+                    {
+                      "name": "sum(total_authors)",
+                      "expression": "SUM(`total_authors`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total de Autores",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_authors)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi_total_books",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi_books",
+                  "fields": [
+                    {
+                      "name": "sum(total_books)",
+                      "expression": "SUM(`total_books`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total de Libros",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_books)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi_top_genre",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_top_genre",
+                  "fields": [
+                    {
+                      "name": "genre",
+                      "expression": "`genre`"
+                    },
+                    {
+                      "name": "book_count",
+                      "expression": "`book_count`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Género Más Popular",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "genre"
+                  },
+                  {
+                    "fieldName": "book_count"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "pie_genre_dist",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_genre_dist",
+                  "fields": [
+                    {
+                      "name": "sum(book_count)",
+                      "expression": "SUM(`book_count`)"
+                    },
+                    {
+                      "name": "genre",
+                      "expression": "`genre`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Distribución por Género",
+                "showTitle": true
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(book_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "book_count"
+                },
+                "color": {
+                  "fieldName": "genre",
+                  "displayName": "genre",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 6,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "table_books_by_genre",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_books_by_genre",
+                  "fields": [
+                    {
+                      "name": "genre",
+                      "expression": "`genre`"
+                    },
+                    {
+                      "name": "rank",
+                      "expression": "`rank`"
+                    },
+                    {
+                      "name": "title",
+                      "expression": "`title`"
+                    },
+                    {
+                      "name": "author",
+                      "expression": "`author`"
+                    },
+                    {
+                      "name": "rating",
+                      "expression": "`rating`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`genre` IN ('Fiction', 'Fantasy', 'Romance', 'Young Adult', 'Nonfiction', 'Historical Fiction', 'Mystery', 'History', 'Science Fiction', 'Classics')"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 5 Libros por Género",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "genre"
+                  },
+                  {
+                    "fieldName": "rank"
+                  },
+                  {
+                    "fieldName": "title"
+                  },
+                  {
+                    "fieldName": "author"
+                  },
+                  {
+                    "fieldName": "rating"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 14,
+            "width": 6,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "map_reading_index",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_country_reading",
+                  "fields": [
+                    {
+                      "name": "sum(reading_index)",
+                      "expression": "SUM(`reading_index`)"
+                    },
+                    {
+                      "name": "country",
+                      "expression": "`country`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "frame": {
+                "title": "Índice de Lectura por País",
+                "showTitle": true
+              },
+              "widgetType": "choropleth-map",
+              "encodings": {
+                "color": {
+                  "fieldName": "sum(reading_index)",
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "custom-sequential",
+                      "colors": {
+                        "start": "#F5E6C8",
+                        "end": "#722F37"
+                      }
+                    }
+                  }
+                },
+                "region": {
+                  "regionType": "mapbox-v4-admin",
+                  "admin0": {
+                    "fieldName": "country",
+                    "type": "field",
+                    "geographicRole": "admin0-name"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 23,
+            "width": 12,
+            "height": 10
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#1C0D0A",
+        "dark": "#1C0D0A"
+      },
+      "widgetBackgroundColor": {
+        "light": "#2D1B16",
+        "dark": "#2D1B16"
+      },
+      "widgetBorderColor": {
+        "light": "#5A3420",
+        "dark": "#5A3420"
+      },
+      "visualizationColors": [
+        "#D4AF37",
+        "#8B0000",
+        "#C9A227",
+        "#722F37",
+        "#F0C040",
+        "#9B2335",
+        "#E8B84B",
+        "#5D1A23",
+        "#F5D060",
+        "#4A1628"
+      ],
+      "widgetHeaderAlignment": "LEFT",
+      "widgetPadding": 16,
+      "widgetMargin": 8,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 15,
+      "continuousGradient": {
+        "lightMode": {
+          "customSequential": {
+            "start": "#F5E6C8",
+            "end": "#8B0000"
+          }
+        },
+        "darkMode": {
+          "customSequential": {
+            "start": "#F5E6C8",
+            "end": "#8B0000"
+          }
+        }
+      },
+      "fontSettings": {
+        "base": {
+          "fontFamily": "EB Garamond",
+          "fontColor": {
+            "light": "#F5E6C8",
+            "dark": "#F5E6C8"
+          }
+        },
+        "widgetTitle": {
+          "fontFamily": "EB Garamond",
+          "fontColor": {
+            "light": "#D4AF37",
+            "dark": "#D4AF37"
+          },
+          "fontWeight": 700
+        },
+        "widgetDescription": {
+          "fontFamily": "EB Garamond",
+          "fontColor": {
+            "light": "#C8A87A",
+            "dark": "#C8A87A"
+          }
+        },
+        "fieldTitle": {
+          "fontColor": {
+            "light": "#C8A87A",
+            "dark": "#C8A87A"
+          }
+        },
+        "fieldValue": {
+          "fontColor": {
+            "light": "#F5E6C8",
+            "dark": "#F5E6C8"
+          }
+        }
+      },
+      "gridLineColor": {
+        "light": "#3D2A20",
+        "dark": "#3D2A20"
+      }
+    },
+    "applyModeEnabled": false
+  }
+}
